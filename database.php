@@ -5,17 +5,21 @@ require_once("db.php");
 //echo "Here you can read database stuff and things<br>";
 
 $table = "not_set";
-if(!isset($_POST["table"])){
+if(!isset($_GET["table"])){
     //$_SESSION["table"] = $table = "student";
 }
 else{
-    $_SESSION["table"] = $table = $_POST["table"];
+    $_SESSION["table"] = $table = $_GET["table"];
 }
 
 echo "
     <form action='main.php?page=database' id='tableForm' method='post'>
         <div class='form-group'>
-            <select name='table' form='tableForm'>
+            <a href='?page=database&table=student' class='btn btn-primary'>Student</a>
+            <a href='?page=database&table=teacher' class='btn btn-primary'>Teacher</a>
+            <a href='?page=database&table=course' class='btn btn-primary'>Course</a>";
+
+            /*echo "<select name='table' form='tableForm'>
                 <label for='studentNameField'>Table name</label>";
                 if(isset($_SESSION["table"]) && $_SESSION["table"] == "student"){
                     echo "<option value='student' selected name='table'>Student</option>";
@@ -38,12 +42,12 @@ echo "
             echo "
             </select>
         </div>
-        <button type='submit' class='btn btn-default'>Change table</button>
-    </form>
+        <button type='submit' class='btn btn-default'>Change table</button>";*/
+    echo "</form>
 ";
 
 if($_SESSION["table"] == "student"){
-    $header = "<table class='table'><tr><th>pk</th><th>Student name</th><th>delete</th><th>update</th></tr>";
+    $header = "<table class='table'><tr><th>pk</th><th>Student name</th><th>Student email</th><th>delete</th><th>update</th></tr>";
     outputDB($header);
 }else if($_SESSION["table"] == "teacher"){
     $header = "<table class='table'><tr><th>pk</th><th>Teacher name</th><th>delete</th><th>update</th></tr>";
@@ -61,7 +65,7 @@ function outputDB($rowHeader){
     // output data of each row
     $id = 0;
     $updateThis = false;
-    echo $rowHeader . "<br>u".$_SESSION["table"]."name<br>";
+    echo $rowHeader;
     while($row = $result->fetch_assoc()) {
         //If $_GET["update"] is set and equals the current row then print out the update form
         if(isset($_GET["update"])){
@@ -75,9 +79,13 @@ function outputDB($rowHeader){
                         echo "<td class='info'>";
                         //echo "<label for='studentNameField'>Student name</label>";
                         echo "<input type='text' class='form-control' id='u" . $_SESSION["table"] . "namefield' name='u" . $_SESSION["table"]."name' placeholder='".$row['name'] . "'></td>";
+                        if($_SESSION['table'] == "student"){
+                            echo "<td class='info'>";
+                            echo "<input type='text' class='form-control' id='u" . $_SESSION["table"] . "namefield' name='u" . $_SESSION["table"]."email' placeholder='".$row['email'] . "'></td>";
+                        }
                         echo "<td class='danger'><a href=?page=database&delete=" . $row["pk"] . " class='btn btn-danger'>Delete</a></td>";
                         echo "<td class='info'><button type='submit' class='btn btn-default' name='u" . $_SESSION["table"] . "pk' value=" .$row["pk"] . ">Confirm update</button>";
-                        echo "<a href=?page=database class='btn btn-default'>Cancel</a>";
+                        echo "<a href=?page=database&table=".$_SESSION["table"]." class='btn btn-default'>Cancel</a>";
                         echo "</td>";
                         echo "</tr>";
                     echo "
@@ -100,8 +108,11 @@ function outputDB($rowHeader){
             echo "<tr>";
             echo "<td class='info'>" . $row["pk"]. "</td>";
             echo "<td class='info'>" . $row["name"]. "</td>";
-            echo "<td class='danger'><a href=?page=database&delete=" . $row["pk"] . " class='btn btn-danger'>Delete</a></td>";
-            echo "<td class='info'><a href=?page=database&update=" . $row["pk"] . " class='btn btn-default'>Update</a></td>";
+            if($_SESSION['table'] == "student"){
+                echo "<td class='info'>" . $row["email"]. "</td>";
+            }
+            echo "<td class='danger'><a href=?page=database&delete=" . $row["pk"] . "&table=".$_SESSION["table"]." class='btn btn-danger'>Delete</a></td>";
+            echo "<td class='info'><a href=?page=database&update=" . $row["pk"] . "&table=".$_SESSION["table"]." class='btn btn-default'>Update</a></td>";
             echo "</tr>";
         }
 

@@ -20,7 +20,7 @@ class DB{
     }
 
     static public function printFromDb($table){
-        $sql = "SELECT pk, name FROM school.$table";
+        $sql = "SELECT * FROM school.$table";
         $result = DB::$conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -40,10 +40,10 @@ class DB{
         }
     }
 
-    static public function insertIntoStudent($name){
+    static public function insertIntoStudent($name, $email){
         echo "Attempting to add student...<br>";
 
-        $sql = "INSERT INTO school.student (name) VALUES ('$name')";
+        $sql = "INSERT INTO school.student (name, email) VALUES ('$name', '$email')";
         //$result = DB::$conn->query($sql);
 
         if (DB::$conn->query($sql) === TRUE) {
@@ -53,8 +53,8 @@ class DB{
         }
     }
 
-    static public function updateStudent($pk, $name){
-        $sql = "UPDATE school.student SET name='$name' WHERE pk=$pk";
+    static public function updateStudent($pk, $name, $email){
+        $sql = "UPDATE school.student SET name='$name', email='$email' WHERE pk=$pk";
 
         if (DB::$conn->query($sql) === TRUE) {
             echo "Record updated successfully";

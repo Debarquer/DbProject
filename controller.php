@@ -25,15 +25,15 @@ class Controller{
     }
 
     function checkPost(){
-        if(isset($_POST["studentName"])){
+        if(isset($_POST["studentName"]) && isset($_POST["studentEmail"])){
             echo "Student name: ". $_POST["studentName"] . "<br>";
 
-            DB::insertIntoStudent($_POST["studentName"]);
+            DB::insertIntoStudent($_POST["studentName"], $_POST["studentEmail"]);
         }
-        else if(isset($_POST["ustudentname"])){
+        else if(isset($_POST["ustudentname"]) && isset($_POST["ustudentname"])){
             echo "Student name: ". $_POST["ustudentname"] . "<br>";
 
-            DB::updateStudent($_POST["ustudentpk"], $_POST["ustudentname"]);
+            DB::updateStudent($_POST["ustudentpk"], $_POST["ustudentname"], $_POST["ustudentemail"]);
         }
         else if(isset($_POST["teacherName"])){
             echo "Teacher name: ". $_POST["teacherName"] . "<br>";

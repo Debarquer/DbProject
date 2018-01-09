@@ -59,6 +59,7 @@ function studentForm(){
         <div class='form-group'>
             <label for='studentNameField'>Student name</label>
             <input type='text' class='form-control' id='studentNameField' name='studentName' placeholder='Student name'>
+            <input type='text' class='form-control' id='studentEmailField' name='studentEmail' placeholder='Student email'>
             <p class='help-block'>Insert thing A here.</p>
         </div>
         <button type='submit' class='btn btn-default'>Add new student</button>
